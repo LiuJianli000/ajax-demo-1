@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    hello
+    <script>
+
+        // var xhr = XMLHttpRequest()
+        // xhr.open('GET', '/hello.json', false)  //设置参数，请求地址，同步
+        // xhr.send()
+        // var data = xhr.responseText
+        // console.log(data)
+        
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', 'https://easy-mock.com/mock/5d14875058c45a60006c703b/hunger/getType', true)  //设置参数，请求地址（资源，不是一个文件），异步
+        xhr.send()  //send之后立刻获取数据（此时数据还没来）
+
+        console.log('readyState:',xhr.readyState)
+        xhr.addEventListener('readystatechange',function(){
+            console.log('readyState:',xhr.readyState)  //readyState准备状态
+//与后端进行交互的时候，走的是 http 的协议，它有几次握手，每次握手状态会发生改变，每次改变会触发一个 readystatechange 事件
+//等于 4 时，请求的过程结束，触发 load 事件
+// bing.com ajax readyState 搜索看一下 readyState 对应的值代表什么
+        })  
+
+        xhr.addEventListener('load', function () {
+            console.log(xhr.status)
+            if((xhr.status >= 200 && xhr.status < 300) || xhr.status ===304){
+                var data = xhr.responseText
+            console.log(data)
+            }else{
+                console.log('error')
+            }
+            
+        }) //发请求后就不管了，给它绑定个事件，但数据到来之后就会触发 load 事件，只要监听到 load 事件，之后这个对象的属性里面就有数据（以前没有）
+
+
+
+        // xhr.onerror = function(){
+        //     console.log('error')
+        // } //出错
+        // xhr.ontimeout = function(){
+
+        // }  //超时
+        
+
+
+    </script>
+</body>
+
+</html>
